@@ -145,6 +145,25 @@ internal static class AotApiScenario
         handler.AssertComplete();
     }
 
+    internal static async Task RunCancellationPathAsync()
+    {
+        var client = CreateClient(new HangingHttpMessageHandler(), new JsonSerializerOptions());
+        using var cancellation = new CancellationTokenSource(TimeSpan.FromMilliseconds(100));
+
+        var request = client.V1.Secrets.KeyValue.V2.ReadSecretAsync("sample", cancellationToken: cancellation.Token);
+        var finished = await Task.WhenAny(request, Task.Delay(TimeSpan.FromSeconds(10)));
+        Require(finished == request, "Cancellation token was not forwarded to the HTTP request.");
+
+        try
+        {
+            await request;
+            throw new InvalidOperationException("Cancelled request completed successfully.");
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
+
     internal static void Require(bool condition, string message)
     {
         if (!condition)
@@ -153,14 +172,14 @@ internal static class AotApiScenario
         }
     }
 
-    private static VaultClient CreateClient(StubHttpMessageHandler handler, JsonSerializerOptions options)
+    private static VaultClient CreateClient(HttpMessageHandler handler, JsonSerializerOptions options)
     {
         var settings = new VaultClientSettings(
             "https://vault.invalid",
             new TokenAuthMethodInfo("token"))
         {
             JsonSerializerOptions = options,
-            MyHttpClientProviderFunc = _ => new HttpClient(handler),
+            MyHttpClientProviderFunc = _ => new HttpClient(handler) { Timeout = Timeout.InfiniteTimeSpan },
         };
 
         var client = new VaultClient(settings);
@@ -182,6 +201,17 @@ internal static class AotApiScenario
         internal string PathAndQuery { get; }
         internal string? Json { get; }
         internal string ResponseJson { get; }
+    }
+
+    private sealed class HangingHttpMessageHandler : HttpMessageHandler
+    {
+        protected override async Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
+            throw new InvalidOperationException("Hanging handler must only finish by cancellation.");
+        }
     }
 
     private sealed class StubHttpMessageHandler : HttpMessageHandler
