@@ -5,7 +5,9 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using VaultSharp.V1.AuthMethods;
 using VaultSharp.V1.AuthMethods.Token;
+using VaultSharp.V1.AuthMethods.UserPass;
 using VaultSharp.V1.Commons;
 using VaultSharp.V1.SecretsEngines.GoogleCloud;
 using VaultSharp.V1.SecretsEngines.TOTP;
@@ -148,11 +150,26 @@ internal static class AotApiScenario
     internal static async Task RunCancellationPathAsync()
     {
         var client = CreateClient(new HangingHttpMessageHandler(), new JsonSerializerOptions());
+        await RequireCancelledAsync(
+            token => client.V1.Secrets.KeyValue.V2.ReadSecretAsync("sample", cancellationToken: token),
+            "Cancellation token was not forwarded to the HTTP request.");
+
+        var loginClient = CreateClient(new HangingHttpMessageHandler(), new JsonSerializerOptions(), new UserPassAuthMethodInfo("user", "password"));
+        await RequireCancelledAsync(
+            token => loginClient.V1.Secrets.KeyValue.V2.ReadSecretAsync("sample", cancellationToken: token),
+            "Cancellation token did not stop waiting for the login.");
+        await RequireCancelledAsync(
+            token => loginClient.V1.Auth.PerformImmediateLogin(token),
+            "Cancellation token did not stop waiting for the immediate login.");
+    }
+
+    private static async Task RequireCancelledAsync(Func<CancellationToken, Task> action, string message)
+    {
         using var cancellation = new CancellationTokenSource(TimeSpan.FromMilliseconds(100));
 
-        var request = client.V1.Secrets.KeyValue.V2.ReadSecretAsync("sample", cancellationToken: cancellation.Token);
+        var request = action(cancellation.Token);
         var finished = await Task.WhenAny(request, Task.Delay(TimeSpan.FromSeconds(10)));
-        Require(finished == request, "Cancellation token was not forwarded to the HTTP request.");
+        Require(finished == request, message);
 
         try
         {
@@ -172,11 +189,11 @@ internal static class AotApiScenario
         }
     }
 
-    private static VaultClient CreateClient(HttpMessageHandler handler, JsonSerializerOptions options)
+    private static VaultClient CreateClient(HttpMessageHandler handler, JsonSerializerOptions options, IAuthMethodInfo? authMethodInfo = null)
     {
         var settings = new VaultClientSettings(
             "https://vault.invalid",
-            new TokenAuthMethodInfo("token"))
+            authMethodInfo ?? new TokenAuthMethodInfo("token"))
         {
             JsonSerializerOptions = options,
             MyHttpClientProviderFunc = _ => new HttpClient(handler) { Timeout = Timeout.InfiniteTimeSpan },

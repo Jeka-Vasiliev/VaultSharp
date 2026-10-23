@@ -137,7 +137,7 @@ vaultClient.V1.Auth.PerformImmediateLogin();
 
 * Every async method accepts an optional ```CancellationToken cancellationToken``` as its last parameter.
 * The token is forwarded to the underlying ```HttpClient``` call, so cancelling it aborts the in-flight Vault request.
-* The lazy login to Vault (performed on the first call) is shared by all callers and is not cancelled by an individual caller's token.
+* The lazy login to Vault (performed on the first call) is shared by all callers. Cancelling a caller's token stops that caller from waiting for the login, but the login itself keeps running and its result is reused by later calls.
 
 ```cs
 using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));

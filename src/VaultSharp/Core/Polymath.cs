@@ -133,12 +133,12 @@ namespace VaultSharp.Core
             }
         }
 
-        internal async Task PerformImmediateLogin()
+        internal async Task PerformImmediateLogin(CancellationToken cancellationToken = default)
         {
             if (_authMethodLoginProvider != null)
             {
                 // make a dummy call, that will force a login.
-                await _lazyVaultToken.Value.ConfigureAwait(VaultClientSettings.ContinueAsyncTasksOnCapturedContext);
+                await _lazyVaultToken.Value.WaitAsync(cancellationToken).ConfigureAwait(VaultClientSettings.ContinueAsyncTasksOnCapturedContext);
             }
         }
 
@@ -167,7 +167,7 @@ namespace VaultSharp.Core
 
             if (!unauthenticated && _lazyVaultToken != null)
             {
-                var vaultToken = await _lazyVaultToken.Value.ConfigureAwait(VaultClientSettings.ContinueAsyncTasksOnCapturedContext);
+                var vaultToken = await _lazyVaultToken.Value.WaitAsync(cancellationToken).ConfigureAwait(VaultClientSettings.ContinueAsyncTasksOnCapturedContext);
 
                 if (VaultClientSettings.UseVaultTokenHeaderInsteadOfAuthorizationHeader)
                 {
