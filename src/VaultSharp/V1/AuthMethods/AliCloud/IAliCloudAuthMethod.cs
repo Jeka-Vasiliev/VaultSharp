@@ -21,8 +21,8 @@ namespace VaultSharp.V1.AuthMethods.AliCloud
         /// Specifies the request options. </param>
         /// <param name="mountPoint"><para>[optional]</para>
         /// The mount point for the Auth backend. Defaults to <see cref="AuthMethodDefaultPaths.AliCloud" />
-        /// Provide a value only if you have customized the mount point.</param>
-        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>        
+        /// Provide a value only if you have customized the mount point.</param>        
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>The task</returns>
         Task WriteRoleAsync(string roleName, CreateAliCloudRoleModel createAliCloudRoleModel, string mountPoint = AuthMethodDefaultPaths.AliCloud, CancellationToken cancellationToken = default);
 
@@ -34,8 +34,8 @@ namespace VaultSharp.V1.AuthMethods.AliCloud
         /// <param name="mountPoint"><para>[optional]</para>
         /// The mount point for the Auth backend. Defaults to <see cref="AuthMethodDefaultPaths.AliCloud" />
         /// Provide a value only if you have customized the mount point.
-        /// </param>
-        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>        
+        /// </param>        
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>The role details</returns>
         Task<Secret<AliCloudRoleModel>> ReadRoleAsync(string roleName, string mountPoint = AuthMethodDefaultPaths.AliCloud, CancellationToken cancellationToken = default);
 
@@ -46,8 +46,8 @@ namespace VaultSharp.V1.AuthMethods.AliCloud
         /// <param name="mountPoint"><para>[optional]</para>
         /// The mount point for the Auth backend. Defaults to <see cref="AuthMethodDefaultPaths.AliCloud" />
         /// Provide a value only if you have customized the mount point.
-        /// </param>
-        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>  
+        /// </param>  
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>The role names.</returns>
         Task<Secret<ListInfo>> ReadAllRolesAsync(string mountPoint = AuthMethodDefaultPaths.AliCloud, CancellationToken cancellationToken = default);
 
@@ -59,8 +59,8 @@ namespace VaultSharp.V1.AuthMethods.AliCloud
         /// <param name="mountPoint"><para>[optional]</para>
         /// The mount point for the Auth backend. Defaults to <see cref="AuthMethodDefaultPaths.AliCloud" />
         /// Provide a value only if you have customized the mount point.
-        /// </param>
-        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>        
+        /// </param>        
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>The task</returns>
         Task DeleteRoleAsync(string roleName, string mountPoint = AuthMethodDefaultPaths.AliCloud, CancellationToken cancellationToken = default);
     }

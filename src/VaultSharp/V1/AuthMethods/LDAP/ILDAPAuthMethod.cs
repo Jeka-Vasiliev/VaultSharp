@@ -21,8 +21,8 @@ namespace VaultSharp.V1.AuthMethods.LDAP
         /// </param>
         /// <param name="mountPoint"><para>[optional]</para>
         /// The mount point for the LDAP backend. Defaults to <see cref="AuthMethodDefaultPaths.LDAP" />
-        /// Provide a value only if you have customized the mount point.</param>
-        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>        
+        /// Provide a value only if you have customized the mount point.</param>        
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         Task WriteGroupAsync(string groupName, IList<string> policies, string mountPoint = AuthMethodDefaultPaths.LDAP, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -68,8 +68,8 @@ namespace VaultSharp.V1.AuthMethods.LDAP
         /// </param>
         /// <param name="mountPoint"><para>[optional]</para>
         /// The mount point for the LDAP backend. Defaults to <see cref="AuthMethodDefaultPaths.LDAP" />
-        /// Provide a value only if you have customized the mount point.</param>
-        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>  
+        /// Provide a value only if you have customized the mount point.</param>  
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         Task DeleteGroupAsync(string groupName, string mountPoint = AuthMethodDefaultPaths.LDAP, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -86,8 +86,8 @@ namespace VaultSharp.V1.AuthMethods.LDAP
         /// </param>
         /// <param name="mountPoint"><para>[optional]</para>
         /// The mount point for the LDAP backend. Defaults to <see cref="AuthMethodDefaultPaths.LDAP" />
-        /// Provide a value only if you have customized the mount point.</param>
-        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>        
+        /// Provide a value only if you have customized the mount point.</param>        
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         Task WriteUserAsync(string username, IList<string> policies, IList<string> groups, string mountPoint = AuthMethodDefaultPaths.LDAP, CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -133,8 +133,8 @@ namespace VaultSharp.V1.AuthMethods.LDAP
         /// </param>
         /// <param name="mountPoint"><para>[optional]</para>
         /// The mount point for the LDAP backend. Defaults to <see cref="AuthMethodDefaultPaths.LDAP" />
-        /// Provide a value only if you have customized the mount point.</param>
-        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>  
+        /// Provide a value only if you have customized the mount point.</param>  
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         Task DeleteUserAsync(string username, string mountPoint = AuthMethodDefaultPaths.LDAP, CancellationToken cancellationToken = default);
     }
 }

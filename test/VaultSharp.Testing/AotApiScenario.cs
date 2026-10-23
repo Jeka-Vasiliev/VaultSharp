@@ -161,6 +161,15 @@ internal static class AotApiScenario
         await RequireCancelledAsync(
             token => loginClient.V1.Auth.PerformImmediateLogin(token),
             "Cancellation token did not stop waiting for the immediate login.");
+
+        var slowLogin = new SlowLoginHttpMessageHandler();
+        var slowLoginClient = CreateClient(slowLogin, new JsonSerializerOptions(), new UserPassAuthMethodInfo("user", "password"));
+        await RequireCancelledAsync(
+            token => slowLoginClient.V1.Secrets.KeyValue.V2.ReadSecretAsync("sample", cancellationToken: token),
+            "Cancellation token did not stop waiting for the slow login.");
+        slowLogin.CompleteLogin();
+        await slowLoginClient.V1.Secrets.KeyValue.V2.ReadSecretAsync("sample");
+        Require(slowLogin.LoginRequestCount == 1, $"Expected the cancelled caller's login to be reused, found {slowLogin.LoginRequestCount} login requests.");
     }
 
     private static async Task RequireCancelledAsync(Func<CancellationToken, Task> action, string message)
@@ -229,6 +238,34 @@ internal static class AotApiScenario
             await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken);
             throw new InvalidOperationException("Hanging handler must only finish by cancellation.");
         }
+    }
+
+    private sealed class SlowLoginHttpMessageHandler : HttpMessageHandler
+    {
+        private readonly TaskCompletionSource _loginGate = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private int _loginRequestCount;
+
+        internal int LoginRequestCount => _loginRequestCount;
+
+        internal void CompleteLogin() => _loginGate.SetResult();
+
+        protected override async Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            if (request.RequestUri!.AbsolutePath.Contains("/login/"))
+            {
+                Interlocked.Increment(ref _loginRequestCount);
+                await _loginGate.Task;
+                return JsonResponse("""{"auth":{"client_token":"login-token"}}""");
+            }
+
+            Require(request.Headers.Authorization?.Parameter == "login-token", "Request was sent without the login token.");
+            return JsonResponse("""{"data":{"data":{},"metadata":{"version":1}}}""");
+        }
+
+        private static HttpResponseMessage JsonResponse(string json) =>
+            new(HttpStatusCode.OK) { Content = new StringContent(json, Encoding.UTF8, "application/json") };
     }
 
     private sealed class StubHttpMessageHandler : HttpMessageHandler

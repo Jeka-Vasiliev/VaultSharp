@@ -15,6 +15,7 @@ namespace VaultSharp.V1.SystemBackend.Enterprise
         /// <remarks>
         /// Requires Enterprise Vault.
         /// </remarks>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>Config</returns>
         Task<Secret<ControlGroup>> GetControlGroupConfigAsync(CancellationToken cancellationToken = default);
 
@@ -35,6 +36,7 @@ namespace VaultSharp.V1.SystemBackend.Enterprise
         /// <remarks>
         /// Requires Enterprise Vault.
         /// </remarks>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>Task</returns>
         Task DeleteControlGroupConfigAsync(CancellationToken cancellationToken = default);
 
@@ -65,6 +67,7 @@ namespace VaultSharp.V1.SystemBackend.Enterprise
         /// <summary>
         /// Returns information about the currently installed license.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>License.</returns>
         Task<Secret<License>> GetLicenseAsync(CancellationToken cancellationToken = default);
 
@@ -81,6 +84,7 @@ namespace VaultSharp.V1.SystemBackend.Enterprise
         /// <summary>
         /// Gets all the RGP policy names in the system.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The policy names.
         /// </returns>
@@ -124,6 +128,7 @@ namespace VaultSharp.V1.SystemBackend.Enterprise
         /// <summary>
         /// Gets all the EGP policy names in the system.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The policy names.
         /// </returns>

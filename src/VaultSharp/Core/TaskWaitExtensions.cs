@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace VaultSharp.Core
@@ -20,7 +19,7 @@ namespace VaultSharp.Core
             {
                 if (await Task.WhenAny(task, cancellation.Task).ConfigureAwait(false) != task)
                 {
-                    throw new OperationCanceledException(cancellationToken);
+                    return await Task.FromCanceled<TResult>(cancellationToken).ConfigureAwait(false);
                 }
             }
 

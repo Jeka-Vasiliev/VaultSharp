@@ -37,6 +37,7 @@ namespace VaultSharp.V1.SystemBackend
         /// Gets all the enabled audit backends (it does not list all available audit backends).
         /// This endpoint requires sudo capability in addition to any path-specific capabilities.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The mounted audit backends.
         /// </returns>
@@ -86,6 +87,7 @@ namespace VaultSharp.V1.SystemBackend
         /// <summary>
         /// Gets all the enabled authentication backends.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The enabled authentication backends.
         /// </returns>
@@ -174,6 +176,7 @@ namespace VaultSharp.V1.SystemBackend
         /// <summary>
         /// Gets the request headers configured to be audited.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns></returns>
         Task<Secret<RequestHeaderSet>> GetAuditRequestHeadersAsync(CancellationToken cancellationToken = default);
 
@@ -209,6 +212,7 @@ namespace VaultSharp.V1.SystemBackend
         /// <summary>
         /// Gets the current CORS configuration.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>Config</returns>
         Task<Secret<CORSConfig>> GetCORSConfigAsync(CancellationToken cancellationToken = default);
 
@@ -225,12 +229,14 @@ namespace VaultSharp.V1.SystemBackend
         /// <summary>
         /// Deletes the current CORS configuration.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>Task</returns>
         Task DeleteCORSConfigAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Gets the configuration and progress of the current root generation attempt.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>The root status</returns>
         Task<RootTokenGenerationStatus> GetRootTokenGenerationStatusAsync(CancellationToken cancellationToken = default);
 
@@ -254,6 +260,7 @@ namespace VaultSharp.V1.SystemBackend
         /// This clears any progress made. 
         /// This must be called to change the OTP or PGP key being used.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>The task.</returns>
         Task CancelRootTokenGenerationAsync(CancellationToken cancellationToken = default);
 
@@ -332,6 +339,7 @@ namespace VaultSharp.V1.SystemBackend
         /// Gets the initialization status of Vault.
         /// This is an unauthenticated call and does not use the credentials.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The initialization status of Vault.
         /// </returns>
@@ -353,6 +361,7 @@ namespace VaultSharp.V1.SystemBackend
         /// <summary>
         /// Gets information about the current encryption key used by Vault
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The status of the encryption key.
         /// </returns>
@@ -361,6 +370,7 @@ namespace VaultSharp.V1.SystemBackend
         /// <summary>
         /// Gets the high availability status and current leader instance of Vault.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The leader info.
         /// </returns>
@@ -440,6 +450,7 @@ namespace VaultSharp.V1.SystemBackend
         /// <summary>
         /// Get the verbosity level of all loggers.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>The verbosity levels</returns>
         Task<Secret<Dictionary<string, object>>> GetVerbosityLevelOfAllLoggersAsync(CancellationToken cancellationToken = default);
 
@@ -477,6 +488,7 @@ namespace VaultSharp.V1.SystemBackend
         /// <summary>
         /// Reverts the verbosity level of all loggers.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         Task RevertVerbosityLevelForAllLoggersAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
@@ -501,6 +513,7 @@ namespace VaultSharp.V1.SystemBackend
         /// <summary>
         /// Gets all the mounted secret backends.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The mounted secret backends.
         /// </returns>
@@ -559,6 +572,7 @@ namespace VaultSharp.V1.SystemBackend
         /// <summary>
         /// Gets all the available policy names in the system.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The policy names.
         /// </returns>
@@ -602,6 +616,7 @@ namespace VaultSharp.V1.SystemBackend
         /// <summary>
         /// Gets all the ACL policy names in the system.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The policy names.
         /// </returns>
@@ -706,6 +721,7 @@ namespace VaultSharp.V1.SystemBackend
         /// the number of unseal keys provided for this rekey and the required number of unseal keys is returned.
         /// This is an unauthenticated call and does not need credentials.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The rekey status.
         /// </returns>
@@ -743,6 +759,7 @@ namespace VaultSharp.V1.SystemBackend
         /// This must be called to change the parameters of the rekey.
         /// This is an unauthenticated call and does not need credentials.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The task.
         /// </returns>
@@ -753,12 +770,14 @@ namespace VaultSharp.V1.SystemBackend
         /// The returned value is the nonce of the rekey operation and a map of PGP key 
         /// fingerprint to hex-encoded PGP-encrypted key.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>The rekey backup info.</returns>
         Task<Secret<RekeyBackupInfo>> GetRekeyBackupKeysAsync(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Deletes the backup copy of PGP-encrypted unseal keys.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>The task.</returns>
         Task DeleteRekeyBackupKeysAsync(CancellationToken cancellationToken = default);
 
@@ -806,6 +825,7 @@ namespace VaultSharp.V1.SystemBackend
         /// Standby nodes should be restarted to get the same effect. 
         /// Requires a token with root policy or sudo capability on the path.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The task.
         /// </returns>
@@ -815,6 +835,7 @@ namespace VaultSharp.V1.SystemBackend
         /// Gets the seal status of the Vault.
         /// This is an unauthenticated call and does not need credentials.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The seal status of the Vault.
         /// </returns>

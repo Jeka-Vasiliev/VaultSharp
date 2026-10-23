@@ -19,8 +19,8 @@ namespace VaultSharp.V1.SecretsEngines.OpenLDAP
         /// Specifies the request options. </param>
         /// <param name="mountPoint"><para>[optional]</para>
         /// The mount point for the OpenLDAP backend. Defaults to <see cref="SecretsEngineMountPoints.OpenLDAP" />
-        /// Provide a value only if you have customized the mount point.</param>
-        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>        
+        /// Provide a value only if you have customized the mount point.</param>        
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>The task</returns>
         Task CreateDynamicRoleAsync(string roleName, DynamicRole role, string mountPoint = null, CancellationToken cancellationToken = default);
 
@@ -62,8 +62,8 @@ namespace VaultSharp.V1.SecretsEngines.OpenLDAP
         /// Specifies the name of the role to delete. </param>
         /// <param name="mountPoint"><para>[optional]</para>
         /// The mount point for the OpenLDAP backend. Defaults to <see cref="SecretsEngineMountPoints.OpenLDAP" />
-        /// Provide a value only if you have customized the mount point.</param>
-        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>   
+        /// Provide a value only if you have customized the mount point.</param>   
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>The task.</returns>
         Task DeleteDynamicRoleAsync(string roleName, string mountPoint = null, CancellationToken cancellationToken = default);
 

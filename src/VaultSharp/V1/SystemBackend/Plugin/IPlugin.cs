@@ -22,6 +22,7 @@ namespace VaultSharp.V1.SystemBackend.Plugin
         /// <summary>
         /// Gets the list of plugins from the catalog.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>The plugin names.</returns>
         Task<Secret<ListInfo>> GetCatalogAsync(CancellationToken cancellationToken = default);
 

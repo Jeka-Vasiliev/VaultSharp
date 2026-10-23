@@ -36,6 +36,7 @@ namespace VaultSharp.V1.AuthMethods.Token
         /// <summary>
         /// Gets the calling client token information. i.e. the token used by the client as part of this call.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The secret with <see cref="CallingTokenInfo" />.
         /// </returns>
@@ -59,6 +60,7 @@ namespace VaultSharp.V1.AuthMethods.Token
         /// Revokes the calling client token and all child tokens.
         /// When the token is revoked, all secrets generated with it are also revoked.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>
         /// The task.
         /// </returns>
@@ -86,6 +88,7 @@ namespace VaultSharp.V1.AuthMethods.Token
         /// <summary>
         /// Lists the available token roles.
         /// </summary>
+        /// <param name="cancellationToken"><para>[optional]</para>The token to monitor for cancellation requests.</param>
         /// <returns>Keys of available token roles.</returns>
         Task <Secret<ListTokenRoles>> ListTokenRolesAsync(CancellationToken cancellationToken = default);
 
